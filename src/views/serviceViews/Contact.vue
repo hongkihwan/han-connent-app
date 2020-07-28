@@ -36,6 +36,7 @@
                 <div class="card-header">
                   <span>통화메모</span>
                 </div>
+                <ContactMemo/>
               </div>
             </div>
           </div>
@@ -45,6 +46,7 @@
                 <div class="card-header">
                   <span>통화메모이력</span>
                 </div>
+                <ContactMemoHistory/>
               </div>
             </div>
           </div>
@@ -63,13 +65,17 @@
 
 <script>
 import CustInfo from '@/components/CustomerInfo/CustInfo.vue';
+import ContactMemo from '@/components/Contact/ContactMemo.vue';
+import ContactMemoHistory from '@/components/Contact/ContactMemoHistory.vue';
+
 export default {
   components: {
-    CustInfo
+    CustInfo,
+    ContactMemo,
+    ContactMemoHistory
   }
 }
 </script>
-
 
 <style scoped>
 .row {

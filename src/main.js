@@ -8,7 +8,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import AWS from "aws-sdk";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-default.css";
-import VCalendar from "v-calendar";
+import VueSweetalert2 from 'vue-sweetalert2';
 
 AWS.config.update({
   accessKeyId: "AKIAYBOEYGIAND3EWQJ4",
@@ -20,7 +20,7 @@ Vue.config.productionTip = false
 Vue.use(BootstrapVue);
 Vue.use(AWS);
 Vue.use(VueToast);
-Vue.use(VCalendar);
+Vue.use(VueSweetalert2);
 
 new Vue({
   router,

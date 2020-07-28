@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="mt-1" style="width:100%; display:flex; justify-content: center;">
-      <b-button href="https://interparktour.awsapps.com/connect/ccp#" variant="info">CCP 열기</b-button>
+      <b-button href="https://interparktour.awsapps.com/connect/ccp#" target="_top" variant="info">CCP 열기</b-button>
     </div>
   </div>
 </template>
