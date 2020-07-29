@@ -12,7 +12,7 @@
                 <label style="width:100px;text-align:right;margin-top:7px;margin-right:10px;">전화번호</label>
                 <div style="display:flex;width:100%;margin:0;padding:0;">
                     <input v-model="c_PhoneNumber" type="text" class="form-control" style="width:80%;height:100%;">
-                    <div style="margin-left:6px;margin-right:2px;margin-top:4px;cursor:pointer;">
+                    <div @click="makeCall" style="margin-left:6px;margin-right:2px;margin-top:4px;cursor:pointer;">
                         <i class="fas fa-phone-volume fa-lg" style="height:100%;"/>
                     </div>
                 </div>
@@ -25,12 +25,12 @@
             </div>
         </div>
 
-        <div  style="margin-left: 10px;margin-top:10px;width:100px;margin-right:5px;">
+        <div style="margin-left: 10px;margin-top:10px;width:100px;margin-right:5px;">
             <button  @click="customerSearch" class="btn btn-primary" type="button" style="height:100%;">고객검색</button>
         </div>
     </div>    
     <div style="margin-top:5px;font-size:12pt;display:flex;float:left;margin-left:27px;">
-      <label >CopyNumber : </label>
+      <label>CopyNumber : </label>
       <label style="cursor:pointer;" >{{ c_PhoneNumber }}</label>
       <div @click="copyData(c_PhoneNumber)">&nbsp;<i class="far fa-copy" style="margin-left:3px;margin-right:6px;margin-top:2px;cursor:pointer;"/></div>
     </div>
@@ -115,7 +115,20 @@ export default {
                         this.$swal('조회실패','고객 정보 조회 오류 : ' + response.data.message,'error')
                     }
                 })
-
+        },
+        makeCall() {
+            this.$swal.fire({
+                text: "발신 채널 선택",
+                input: "select",
+                width: '300px',
+                inputOptions: {
+                    '1701': "2R (모터싸이클)",
+                    '1702': "4R (혼다자동차)"
+                },
+                inputPlaceholder: "선택하세요.",
+                showCancelButton: true,
+                allowOutsideClick: false
+            });
         }
     }
 }
