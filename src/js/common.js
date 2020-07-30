@@ -1,4 +1,48 @@
-
+/***********************
+ * 날짜,시간 관련 공용 스크립트
+ */
+function makeDateTime(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let min = date.getMinutes();
+    let sec = date.getSeconds();
+  
+    if (month < 10) {
+      month = "0" + month.toString();
+    }
+  
+    if (day < 10) {
+      day = "0" + day.toString();
+    }
+  
+    if (hour < 10) {
+      hour = "0" + hour.toString();
+    }
+  
+    if (min < 10) {
+      min = "0" + min.toString();
+    }
+  
+    if (sec < 10) {
+      sec = "0" + sec.toString();
+    }
+  
+    return (
+      year.toString() +
+      "-" +
+      month.toString() +
+      "-" +
+      day.toString() +
+      " " +
+      hour.toString() +
+      ":" +
+      min.toString() +
+      ":" +
+      sec.toString()
+    );
+  }
 /** 페이지바 생성에 필요한 값들 생성 
  * @param pageNo      요청한 페이지 번호
  * @param count       총 row 수
@@ -87,5 +131,6 @@ function makeDatehhmmss(sec){
 export {
     makePageData,
     makeDate,
-    makeDatehhmmss
+    makeDateTime,
+    makeDatehhmmss,
 }

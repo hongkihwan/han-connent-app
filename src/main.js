@@ -6,6 +6,8 @@ import BootstrapVue from 'bootstrap-vue'
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import AWS from "aws-sdk";
+import vueMoment from "vue-moment";
+import moment from "moment";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-default.css";
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -21,6 +23,7 @@ Vue.use(BootstrapVue);
 Vue.use(AWS);
 Vue.use(VueToast);
 Vue.use(VueSweetalert2);
+Vue.use(vueMoment, moment);
 
 new Vue({
   router,

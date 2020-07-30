@@ -12,10 +12,15 @@
         <b-nav-item to="/contect" class="white--text">고객상담</b-nav-item>
         <b-nav-item to="/contacthistory" class="ml-3 mr-3">전체통화메모이력</b-nav-item>
         <b-nav-item to="/contactSmsHistory">전체SMS발송이력</b-nav-item>
-        <b-nav-item-dropdown class="ml-3 mr-3" text="REPORT" left>
+        <b-nav-item-dropdown class="ml-3 mr-3" text="REPORT">
           <b-dropdown-item to="/surveyreport">만족도조사결과</b-dropdown-item>
           <b-dropdown-item to="/dailyreport">DailyREPORT</b-dropdown-item>
           <b-dropdown-item to="/monthlyreport">MonthlyREPORT</b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item-dropdown class="mr-3" text="캠페인">
+          <b-dropdown-item to="/campaign">파일등록</b-dropdown-item>
+          <b-dropdown-item to="/campaignRegister">데이터생성</b-dropdown-item>
+          <b-dropdown-item to="/campaignConfirm">데이터확인</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item class="white--text" to="/contactCurrentProcess">상담사관리</b-nav-item>
         <b-nav-item class="white--text" to="/contactQuestionTitle">문의유형관리</b-nav-item>
