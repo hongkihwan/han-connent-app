@@ -312,4 +312,10 @@ export default {
   border: 1px solid #444444;
   text-align: center;
 }
+.table-colored-bordered.table-bordered-info thead th {
+  color:#000030;
+  font-weight:600;
+  text-align: center;
+  background-color: #f0f0f2;
+}
 </style>

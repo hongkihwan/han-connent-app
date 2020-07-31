@@ -26,7 +26,7 @@ Vue.use(VueRouter)
       component: Layout,
       children: [
         {
-          path: "contect",
+          path: "contact",
           name: "Contact",
           component: Contact,
         },
@@ -40,11 +40,6 @@ Vue.use(VueRouter)
           name: "contactSmsHistory",
           component: ContactSmsHistory,
         },
-        // {
-        //   path: "prjcatereport",
-        //   name: "PrjCateReport",
-        //   component: PrjCateReport,
-        // },
         {
           path: "dailyreport",
           name: "DailyReport",

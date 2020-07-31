@@ -42,95 +42,88 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 
 export default {
-    data() {
-        return {
-            c_Name:'',
-            c_PhoneNumber:'',
-            c_IdentificationNum:'',
-        }
+  data() {
+    return {
+      c_Name:'',
+      c_PhoneNumber:'',
+      c_IdentificationNum:'',
+     }
+   },
+  methods: {
+    copyData: function(value) {
+      let dummy = document.createElement("textarea");
+      document.body.appendChild(dummy);
+      dummy.value = value;
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
     },
-    methods: {
-        copyData: function(value) {
-            let dummy = document.createElement("textarea");
-
-            document.body.appendChild(dummy);
-            dummy.value = value;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-        },
-        customerSearch() {
-
-            let idx = 0;
-            let val = '';
-
-            for(idx = 0; idx < this.c_PhoneNumber.length; idx++) {
-                if(this.c_PhoneNumber.substring(idx,idx+1) >= '0' && this.c_PhoneNumber.substring(idx,idx+1) <= '9') {
-                    val = val + this.c_PhoneNumber.substring(idx,idx+1);
-                }
-            }
-
-            this.c_PhoneNumber = val;
-            console.log('name/c_PhoneNumber/extkey2: ', this.c_Name, this.c_PhoneNumber, this.c_IdentificationNum);
-
-            if(this.c_Name == '' && this.c_PhoneNumber == '' && this.c_IdentificationNum == ''){
-                Swal.fire({
-                    icon: 'error',
-                    width: 300,
-                    text: '정보를 입력해주세요.',
-                });
-            }else {
-                this.loadCustomer(this.c_Name, this.c_PhoneNumber, this.c_IdentificationNum, 0);
-            }
-        },
-        loadCustomer(name, phoneNumber, identification, sequence) {
-            let url = process.env.VUE_APP_API_URL+'/api/customer/';
-
-            console.log('[Components-CustInfo] loadCustomer : ', name, phoneNumber, identification, sequence);
-
-            if(sequence != 0){
-                url = url + 'search/custseq/' + sequence;
-            }else if(name != '' && phoneNumber == "" && sequence == 0) {
-                url = url + 'search/name/' + name;
-            }else if(name == "" && phoneNumber != "" && sequence == 0) {
-                url = url + 'search/extkey1/' + phoneNumber;
-            }else if(name != "" && phoneNumber != "" && sequence == 0) {
-                url = url + 'search/extkey1/' + phoneNumber;
-            }else {
-                url = url + 'search/extkey2/' + identification;
-            }
-            
-            console.log('[Components-CustInfo] URL : ', url );
-            
-            axios.get(url)
-                .then((response) => {
-                    if(response.data.result === true) {
-                        this.c_Name = response.data.customer.name;
-                        this.c_PhoneNumber = response.data.customer.extkey1;
-                        this.c_IdentificationNum = response.data.customer.extkey2;
-                    }else {
-                        this.name = '';
-                        this.c_PhoneNumber = '';
-                        this.c_IdentificationNum = '';
-                        this.$swal('조회실패','고객 정보 조회 오류 : ' + response.data.message,'error')
-                    }
-                })
-        },
-        makeCall() {
-            this.$swal.fire({
-                text: "발신 채널 선택",
-                input: "select",
-                width: '300px',
-                inputOptions: {
-                    '1701': "2R (모터싸이클)",
-                    '1702': "4R (혼다자동차)"
-                },
-                inputPlaceholder: "선택하세요.",
-                showCancelButton: true,
-                allowOutsideClick: false
-            });
+    customerSearch() {
+      let idx = 0;
+      let val = '';
+      for(idx = 0; idx < this.c_PhoneNumber.length; idx++) {
+        if(this.c_PhoneNumber.substring(idx,idx+1) >= '0' && this.c_PhoneNumber.substring(idx,idx+1) <= '9') {
+          val = val + this.c_PhoneNumber.substring(idx,idx+1);
         }
+       }
+      this.c_PhoneNumber = val;
+      console.log('name/c_PhoneNumber/extkey2: ', this.c_Name, this.c_PhoneNumber, this.c_IdentificationNum);
+      if(this.c_Name == '' && this.c_PhoneNumber == '' && this.c_IdentificationNum == ''){
+        Swal.fire({
+          icon: 'error',
+          width: 300,
+          text: '정보를 입력해주세요.',
+        });
+       }else {
+        this.loadCustomer(this.c_Name, this.c_PhoneNumber, this.c_IdentificationNum, 0);
+       }
+    },
+    loadCustomer(name, phoneNumber, identification, sequence) {
+       let url = process.env.VUE_APP_API_URL+'/api/customer/';
+       console.log('[Components-CustInfo] loadCustomer : ', name, phoneNumber, identification, sequence);
+       if(sequence != 0) {
+         url = url + 'search/custseq/' + sequence;
+       } else if(name != '' && phoneNumber == "" && sequence == 0) {
+         url = url + 'search/name/' + name;
+       }else if(name == "" && phoneNumber != "" && sequence == 0) {
+         url = url + 'search/extkey1/' + phoneNumber;
+       }else if(name != "" && phoneNumber != "" && sequence == 0) {
+         url = url + 'search/extkey1/' + phoneNumber;
+       }else {
+         url = url + 'search/extkey2/' + identification;
+       }
+        
+       console.log('[Components-CustInfo] URL : ', url );
+        
+       axios.get(url)
+          .then((response) => {
+            if(response.data.result === true) {
+              this.c_Name = response.data.customer.name;
+              this.c_PhoneNumber = response.data.customer.extkey1;
+              this.c_IdentificationNum = response.data.customer.extkey2;
+            }else {
+              this.name = '';
+              this.c_PhoneNumber = '';
+              this.c_IdentificationNum = '';
+              this.$swal('조회실패','고객 정보 조회 오류 : ' + response.data.message,'error')
+            }
+       })
+    },
+    makeCall() {
+      this.$swal.fire({
+        text: "발신 채널 선택",
+        input: "select",
+        width: '300px',
+        inputOptions: {
+          '1701': "2R (모터싸이클)",
+          '1702': "4R (혼다자동차)"
+        },
+        inputPlaceholder: "선택하세요.",
+        showCancelButton: true,
+        allowOutsideClick: false
+      });
     }
+  }
 }
 </script>
 

@@ -2,28 +2,28 @@
   <div class="contact-history-view">
     <div class="row">
       <div class="col-lg-12">
-        <div class="card m-b-30">
-          <div class="card-header">
-            <span>캠페인 데이터 목록</span>
+        <div class="card m-b-30" style="padding: 10px;">
+          <div class="card-header" >
+            <span style="font-weight: bold;">캠페인 데이터 목록</span>
           </div>
           <div class="row">
             <div class="Container-title">
-              <span style="width:75px;margin-top:5px;margin-left:3px; margin-right:3px;">파일선택</span>
-              <b-form-file v-model="file" type="file" accept=".xlsx" autofocus style="width:300px;" placeholder="Choose a file or drop it here..." drop-placeholder="Drop file here..." />
+              <span style="width:80px;margin-top:5px;margin-left:3px; margin-right:3px;">파일선택</span>
+              <b-form-file v-model="file" type="file" accept=".xlsx" autofocus style="width:350px;" placeholder="Choose a file or drop it here..." drop-placeholder="Drop file here..." />
               <button class="btn btn-primary ml-5" @click="uploadFile()">업로드</button>
               <button class="Button-select btn btn-primary" @click="loadAllData()">전체조회</button>
             </div>
           </div>
           <div class="Container-Tables">
-            <div class="Container-fileInfo ml-3 mr-5">
+            <div class="Container-fileInfo ml-3 mr-3">
               <div>
                 <table class="table table-colored-bordered table-bordered-info" style="width:100%;margin-top:20px; table-layout:fixed;text-align:center;">
                   <thead>
                     <tr>
-                      <th style="width:100px">순서</th>
-                      <th style="width:100px">파일이름</th>
-                      <th style="width:100px">파일경로</th>
-                      <th style="width:130px">등록일자</th>
+                      <th style="width: 60px">순서</th>
+                      <th style="width: 260px">파일이름</th>
+                      <th style="width: 235px">파일경로</th>
+                      <th >등록일자</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -93,14 +93,14 @@
             </div>
             <div class="ml-3 mr-5">
               <div>
-                <table class="table table-colored-bordered table-bordered-info" style="width:100%;margin-top:20px; table-layout:fixed;">
+                <table class="table table-colored-bordered table-bordered-info" style="width:100%;margin-top:20px; table-layout:fixed;text-align:center;">
                   <thead>
                     <tr>
                       <th style="width:60px">순서</th>
-                      <th style="width:60px">번호</th>
-                      <th>제목</th>
-                      <th>내용</th>
-                      <th style="text-align:center;">파일번호</th>
+                      <th style="width:80px">번호</th>
+                      <th style="width:200px">제목</th>
+                      <th style="width:100px">내용</th>
+                      <th style="width:90px;">파일번호</th>
                       <th>파일이름</th>
                       <th>등록일자</th>
                     </tr>
@@ -288,14 +288,14 @@ export default {
     async uploadFile() {
       if(this.file == undefined || this.file.length == 0 || this.file == null) {
         let type = 'error';
-        let htmlMessage = `<div class="text-white" style="width:210px;height:40px;display:flex;justify-content:center;align-items:center;"><p class="font-weight-bold h5">파일을 확인해주세요.</p></div>`;
+        let htmlMessage = `<div class="text-white"><p class="h6">파일을 확인해주세요.</p></div>`;
         this.makeToast(type, htmlMessage);
       }else {
         let fileNameChk = this.file.name.slice(this.file.name.indexOf(".")+1).toLowerCase();
         
         if(fileNameChk != "xlsx") {
           let type = 'error';
-          let htmlMessage = `<div class="text-white" style="width:210px;height:40px;display:flex;justify-content:center;align-items:center;"><p class="font-weight-bold h5">엑셀파일(.xlsx)만 등록가능합니다.</p></div>`;
+          let htmlMessage = `<div class="text-white"><p class="h6">엑셀파일(.xlsx)만 등록가능합니다.</p></div>`;
           this.makeToast(type, htmlMessage);
           
           this.file = null;
@@ -307,7 +307,7 @@ export default {
           .then((res) => {
               console.log('[DEBUG] campaignRegistry/makeToast this DATA : ', this);
               let type='success';
-              let htmlMessage = `<div class="text-white" style="width:210px;height:40px;display:flex;justify-content:center;align-items:center;"><p class="font-weight-bold h5">성공적으로 파일이 등록되었습니다.</p></div>`;
+              let htmlMessage = `<div class="text-white"><p class="h6">성공적으로 파일이 등록되었습니다.</p></div>`;
               this.makeToast(type, htmlMessage);
               this.file = null;
               console.log('[API uploadFile RESULT]-SuccessMessage : ', res);
@@ -319,7 +319,7 @@ export default {
           await uploadToData(formData)
             .then((res) => {
               let type='success';
-              let htmlMessage = `<div class="text-white" style="width:210px;height:40px;display:flex;justify-content:center;align-items:center;"><p class="font-weight-bold h5">성공적으로 데이터가 등록되었습니다.</p></div>`;
+              let htmlMessage = `<div class="text-white"><p class="h6">성공적으로 데이터가 등록되었습니다.</p></div>`;
               this.makeToast(type, htmlMessage);
               console.log('[API uploadToData RESULT]-SuccessMessage] : ', res);
             }).catch((error) => {
@@ -375,10 +375,12 @@ export default {
 .contact-history-view {
   text-align:left;
   height:780px;
+  overflow-x: auto;
   overflow-y: auto;
 }
 .Container-Tables {
   display: flex;
+  width:100%;
   justify-content: center;
 }
 .Container-title {
@@ -388,36 +390,25 @@ export default {
   margin-left:10px;
   margin-top:20px;
 }
-
-
-/* .Container-fileInfo tbody > tr {
-  text-align: center;
-} */
-
 .table-colored-bordered.table-bordered-info thead th {
-    color:#000030;
-    font-weight:600;
-    text-align: center;
-    background-color: #f0f0f2;
+  color:#000030;
+  text-align: center;
+  background-color: #f0f0f2;
 }
-
 .Container-fileInfo tbody > tr:hover {
   color:#2196f3;
   cursor: pointer;
 }
-
 .details {
   max-width: 130px;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap; 
 }
-
 .Button-select {
-  width:150px;
+  width: 100px;
   margin-left:10px;
 }
-
 .Container-PageArea {
   width: 100%;
   display: flex;

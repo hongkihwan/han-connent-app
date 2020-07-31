@@ -1149,6 +1149,7 @@ export default {
   overflow-x: auto;
 }
 
+
 .col_day {
     width:40px;
 }

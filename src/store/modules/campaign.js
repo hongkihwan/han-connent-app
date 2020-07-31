@@ -54,11 +54,11 @@ export default {
       return state.dataListCnt;
     },
     getSeqDataList(state){
-      console.log("[getters] getSeqDataList data : ", state.dataSeqList);
+      // console.log("[getters] getSeqDataList data : ", state.dataSeqList);
       return state.dataSeqList;
     },
     getSeqDataListCnt(state) {
-      console.log("[getters] dataSeqListCnt data : ", state.dataSeqListCnt);
+      // console.log("[getters] dataSeqListCnt data : ", state.dataSeqListCnt);
       return state.dataSeqListCnt;
     },
     getAgentList(state) {
@@ -223,6 +223,7 @@ export default {
     },
     async agentList({ commit }, payload) {
       // agent 정보 불러오기.
+      // console.log("======== [Actions-agentList] ========");
       let response = await getAgentDataList(payload).catch((error) => {
         console.log("[API ERROR] - campaign/agentList : ", error);
       });
@@ -239,7 +240,7 @@ export default {
     },
     async agentSeqList({ commit }, payload) {
       // 해당 seq의 Agent 정보를 불러온다.
-      console.log('[Actions/agentSeqList] payloadData : ', payload);
+      // console.log('[Actions/agentSeqList] payloadData : ', payload);
       let response = await getAgentSeqDataList(payload).catch((error) => {
         console.log("[API ERROR] - campaign/agentSeqList : ", error);
       });
@@ -284,11 +285,16 @@ export default {
     },
     async campaignDateListCnt({ commit }, payload) {
       // 날짜에 따른 Campaign 데이터의 갯수를 불러온다.
-      // console.log("[Actions/campaignDateListCnt] payloadData : ", payload);
-      let response = await getCampaignDateListCnt(payload).catch((error) => {
-        console.log("[API ERROR] - campaign/campaignDateListCnt : ", error);
-      });
-      commit("setFileDataListCnt", response.data.items[0].count);
+      console.log("[Actions/campaignDateListCnt] payloadData : ", payload);
+      let response = await getCampaignDateListCnt(payload)
+        .then((response) => {
+          if (response.data.items[0].count > 0) {
+            commit("setFileDataListCnt", response.data.items[0].count);
+          }
+        })
+        .catch((error) => {
+          console.log("[API ERROR] - campaign/campaignDateListCnt : ", error);
+        });
       return response;
     },
     async campaignPageSetting({ commit, state }, payload) {

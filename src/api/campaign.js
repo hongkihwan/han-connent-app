@@ -31,7 +31,7 @@ function getFileSeqDataListCnt(fileSeq) {
 }
 /** AgentSeq에 따른 데이터 조회 */
 function getAgentSeqDataList(reqObj) {
-  console.log("[API-CALL-getAgentSeqDataList] reqObj: ", reqObj);
+  // console.log("[API-CALL-getAgentSeqDataList] reqObj: ", reqObj);
   return instance.post("/api/campaign/choiceAgentList", reqObj);
 }
 /** AgentSeq에 따른 데이터 개수 조회 */

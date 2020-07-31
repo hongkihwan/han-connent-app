@@ -158,9 +158,10 @@ export default {
 
       if(this.smsData.length <= 0 ) {
         this.$swal({ 
-          text:'데이터가 존재하지 않습니다.',
-          width:300,
-          type:'info',
+          title: '데이터 확인필요',
+          text: '기간을 확인해주세요.',
+          width: 350,
+          icon: 'warning',
           allowOutsideClick: false
         });
       }
@@ -181,5 +182,11 @@ export default {
   text-align:left;
   height: 780px;
   overflow-y: auto;
+}
+.table-colored-bordered.table-bordered-info thead th {
+  color:#000030;
+  font-weight:600;
+  text-align: center;
+  background-color: #f0f0f2;
 }
 </style>

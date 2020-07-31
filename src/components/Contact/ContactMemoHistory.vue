@@ -31,7 +31,6 @@
             </div>
         </div>
     </div>
-    
   </div>
 </template>
 
@@ -124,36 +123,37 @@ export default {
 }
 
 .timeline-profile {
-    width:80px;
-    background-color:rgb(245, 245, 247);
-    border-radius: 10px 0 0 10px;
-    margin-bottom: 10px;
+  width:80px;
+  background-color:#5d99c6;
+  border-radius: 10px 0 0 10px;
+  padding-top: 15px;
+  margin-bottom: 10px;
+  color:white;
 }
 .timeline-profile-img {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .timeline-profile-img > img {
-    width:50px;
-    height:50px;
-    border-radius: 25px 25px;
-    border: 3px solid white;
-    margin-bottom: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px 25px;
+  border: 2px solid white;
+  margin-bottom: 5px;
 }
 
 .timeline-agentname {
-    display: flex;
-    justify-content: center;
-    font-size:15px;
+  display: flex;
+  justify-content: center;
+  font-size: 13px;
+  
 }
 
 .timeline-content {
     border-radius: 0 10px 10px 0;
-    background-color:#f0f0f2;
-    /*background-color:#e3f6fc;*/
+    background-color:#bbdefb;
     width:100%;
     margin-bottom:10px;
-    /*margin-left:-40px;*/
     padding:5px 5px;
     text-align:left;
 }
@@ -166,8 +166,8 @@ export default {
 .timeline-calldt {
     float:right;
     margin-right:10px;
-    margin-top:5px;
-    font-size:11px;
+    margin-top: 5px;
+    font-size: 13px;
 }
 
 .timeline-detail {

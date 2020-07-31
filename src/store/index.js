@@ -5,7 +5,7 @@ import campaign from "./modules/campaign.js";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: { campaign},
+  modules: { campaign },
   state: {},
   mutations: {},
   actions: {},
@@ -15,7 +15,6 @@ export default new Vuex.Store({
       if (item === undefined || item === null) {
         return "";
       }
-
       return item.cdname;
     },
     QueryParentseq: (state) => (parentseq) => {

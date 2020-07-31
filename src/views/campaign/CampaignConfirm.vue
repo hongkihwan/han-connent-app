@@ -2,16 +2,14 @@
  <div class="contact-history-view">
     <div class="row">
       <div class="col-lg-12">
-        <div class="card m-b-30">
+        <div class="card m-b-30" style="padding: 10px;">
           <div class="card-header">
-            <span>캠페인 데이터 확인</span>
+            <span style="font-weight: bold;">캠페인 데이터 확인</span>
           </div>
           <div class="row">
-            <div class="col-lg-9" style="display:inline-flex;margin-left:10px;margin-top:20px;">
-              <span style="width:200px;margin-top:5px;margin-right:3px;">이력 추출 기간</span>
-              <date-picker v-model="begindate" id="begindate" format="yyyy-MM-dd" style="margin-right:10px;width:200px;"/>
-              <span style='margin-right:10px;'>~</span>
-              <date-picker v-model="enddate" id="enddate" format="yyyy-MM-dd" style="margin-right:10px;width:200px;" />
+            <div class="Container-title">
+              <span style="width:150px;margin-top:5px;margin-right:3px;">이력 추출 기간</span>
+              <date-picker v-model="range" mode="range" :popover="{ placement: 'bottom', visibility: 'click' }"/>
               <span style="width:100px;margin-top:5px;margin-right:0px;margin-left:20px;">상담사</span>
               <select v-model="agentseq" class="form-control" style="width:150px;">
                   <option value="0">전체</option>
@@ -138,8 +136,11 @@ export default {
       pagePerCount: 10,
 
       // 날짜 설정.
-      begindate: new Date().toISOString().substr(0, 10),
-      enddate: new Date().toISOString().substr(0, 10),
+      range: {
+        start: new Date(), 
+        end: new Date()    
+      },
+
       agentlist:[],
       // 상담사 agentseq,
       agentseq:0,
@@ -261,11 +262,18 @@ export default {
 </script>
 
 <style scoped>
+.Container-title {
+  display:flex;
+  width: 100%;
+  justify-content: center;
+  margin-left:10px;
+  margin-top:20px;
+}
+
 .table-colored-bordered.table-bordered-info thead th {
-    color:#000030;
-    font-weight:600;
-    text-align: center;
-    background-color: #f0f0f2;
+  color:#000030;
+  text-align: center;
+  background-color: #f0f0f2;
 }
 
 .Container-Tables {

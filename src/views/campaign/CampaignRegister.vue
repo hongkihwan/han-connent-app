@@ -2,36 +2,34 @@
   <div class="contact-history-view">
     <div class="row">
       <div class="col-lg-12">
-        <div class="card m-b-30">
+        <div class="card m-b-30" style="padding: 10px;">
           <div class="card-header">
-            <span>캠페인 데이터 등록</span>
+            <span style="font-weight: bold;">캠페인 데이터 등록</span>
           </div>
           <div class="row">
-            <div class="col-lg-9" style="display:inline-flex;margin-left:10px;margin-top:20px;">
-              <span style="width:200px;margin-top:5px;margin-right:3px;">이력 추출 기간</span>
-              <date-picker v-model="begindate" id="begindate" format="yyyy-MM-dd" style="margin-right:10px;width:200px;"/>
-              <span style='margin-right:10px;'>~</span>
-              <date-picker v-model="enddate" id="enddate" format="yyyy-MM-dd" style="margin-right:10px;width:200px;" />
-              <button class="btn btn-primary" style="margin-left:5px;" @click="periodData()">조회</button>
-              <button class="btn btn-primary" style="margin-left:5px;" @click="saveButton()">저장</button>
+            <div class="Container-title">
+              <span style="width:120px;margin-top:5px;margin-right:3px;">이력 추출 기간</span>
+              <date-picker v-model="range" mode="range" id="begindate" :popover="{ placement: 'bottom', visibility: 'click' }"/>
+              <button class="btn btn-primary ml-4" style="width:100px;" @click="periodData()">조회</button>
+              <button class="btn btn-primary ml-4" style="width:100px;" @click="saveButton()">저장</button>
             </div>
             <div class="Container-Tables">
               <div class="Container-Agent ml-3">
-                <table class="table table-colored-bordered table-bordered-info" style="width:450px;margin-top:20px; table-layout:fixed;">
+                <table class="table table-colored-bordered table-bordered-info" style="width:450px;table-layout:fixed;text-align: center;">
                   <thead>
                     <tr>
-                      <th style="width:40px;"></th>
-                      <th style="width:80px;">순서</th>
+                      <th style="width:50px;"></th>
+                      <th style="width:60px;">순서</th>
                       <th style="width:100px;">아이디</th>
-                      <th style="width:100px;">상담원이름</th>
+                      <th style="width:150px;">상담원이름</th>
                       <th style="width:100px;">CTI아이디</th>
-                      <th style="width:80px;">타입</th>
+                      <th style="width:100px;">타입</th>
                     </tr>
                   </thead>
                   <tbody>
                     <template v-for="(item,index) in agentList">
                       <tr :key="index">
-                        <td><input v-model="agentSelected" :checked=item.agentseq name="agent_radio"  type="radio" @change="selectAgent(item)" style="width: 100%;height: 15px;"></td>
+                        <td ><input v-model="agentSelected" :checked=item.agentseq name="agent_radio"  type="radio" @change="selectAgent(item)" style="width: 100%;height: 15px;"></td>
                         <td>{{ item.agentseq }}</td>
                         <td>{{ item.agentid }}</td>
                         <td @click="agentDetailList(item)">{{ item.name }}</td>
@@ -41,7 +39,7 @@
                     </template>
                     <template v-if="agentList.length <= 0"> 
                       <tr>
-                        <td colspan=7 class="text-center">NO DATA Select Condition</td>
+                        <td colspan=7 class="text-center">NO AGENT SELECT DATA</td>
                       </tr>
                     </template>
                   </tbody>
@@ -49,15 +47,15 @@
               </div>
               <div class="Container-Campaign-data ml-3 mr-5">
                 <div>
-                  <table  class="table table-colored-bordered table-bordered-info" style="width:865px; margin-left:15px; margin-top:20px; table-layout:fixed;">
+                  <table  class="table table-colored-bordered table-bordered-info" style="table-layout:fixed;text-align: center;">
                     <thead>
                       <tr>
                         <th style="width:60px;"><input v-model="allSelected" type="checkbox" @change="selectAll"></th>
-                        <th style="width:50px;">순서</th>
-                        <th style="width:60px;">번호</th>
+                        <th style="width:60px;">순서</th>
+                        <th style="width:70px;">번호</th>
                         <th style="width:130px;">제목</th>
-                        <th class="text-center">내용</th>
-                        <th style="width:75px;">파일번호</th>
+                        <th style="width:200px;">내용</th>
+                        <th style="width:100px;">파일번호</th>
                         <th style="width:145px;">파일이름</th>
                         <th style="width:145px;">등록일자</th>
                       </tr>
@@ -166,9 +164,10 @@ export default {
       /** 한페이지에 표시할 게시물 수 */
       pagePerCount: 10,
 
-      //file_seq_Number:0,
-      begindate: new Date().toISOString().substr(0, 10),
-      enddate: new Date().toISOString().substr(0, 10),
+      range: {
+        start: new Date(), 
+        end: new Date()    
+      },
       // agentseq 
       agentseq:0,
       /** 상담사 정보 */
@@ -181,11 +180,11 @@ export default {
   },
   methods: {
     async periodData() {
+      // 기간선택에 대한 데이터를 조회처리.
       // check 항목 초기화 
       this.allSelected=false;
       this.campaignSelected=[];
 
-      // 기간선택에 대한 데이터를 조회처리.
       let reqPage=0;
 
       if(!reqPage || reqPage==0) {
@@ -193,8 +192,8 @@ export default {
       }
 
       let params = {
-        begin: makeDate(this.begindate),
-        end: makeDate(this.enddate),
+        begin: makeDate(this.range.start),
+        end: makeDate(this.range.end),
         pagePerCount: this.pagePerCount,
         campaignListCnt: this.campaignListCnt,
         reqPage,
@@ -203,7 +202,7 @@ export default {
       await this.$store.dispatch('campaign/campaignDateListCnt', params, {root: true});
       await this.$store.dispatch('campaign/campaignPageSetting', params, {root: true});
       await this.$store.dispatch('campaign/campaignDateList', params, {root: true});
-      await this.$store.dispatch('campaign/agentList', this.$store.state.tenantid, {root: true});
+      await this.$store.dispatch('campaign/agentList', 3, {root: true});
     },
 
     async dataPagingProc(reqPage) {
@@ -214,8 +213,8 @@ export default {
       }
       
       let params = {
-        begin: makeDate(this.begindate),
-        end: makeDate(this.enddate),
+        begin: makeDate(this.range.start),
+        end: makeDate(this.range.end),
         pagePerCount: this.pagePerCount,
         campaignListCnt: this.campaignListCnt,
         reqPage,
@@ -254,14 +253,14 @@ export default {
         reqPage= reqPage +1;
       }
       let params = {
-        begin: makeDate(this.begindate),
-        end: makeDate(this.enddate),
+        begin: makeDate(this.range.start),
+        end: makeDate(this.range.end),
         pagePerCount: this.pagePerCount,
         campaignListCnt: this.campaignListCnt,
         agentSeq: this.agentseq,
         reqPage,
       };
-      await this.$store.dispatch('campaign/agentList', this.$store.state.tenantid, {root: true});
+      await this.$store.dispatch('campaign/agentList', 3, {root: true});
       await this.$store.dispatch('campaign/agentSeqListCnt', params, {root: true});
       await this.$store.dispatch('campaign/agentPageSetting', params, {root: true});
       await this.$store.dispatch('campaign/agentSeqList', params, {root: true});
@@ -329,13 +328,18 @@ export default {
 </script>
 
 <style scoped>
+.Container-title {
+  display:flex;
+  width: 100%;
+  justify-content: center;
+  margin-left:10px;
+  margin-top:20px;
+}
 .table-colored-bordered.table-bordered-info thead th {
   color:#000030;
-  font-weight:600;
   text-align: center;
   background-color: #f0f0f2;
 }
-
 .Container-Agent tbody > tr:hover {
   color:#2196f3;
   cursor: pointer;
@@ -343,6 +347,8 @@ export default {
 
 .Container-Tables {
   display: flex;
+  width:100%;
+  margin-top: 10px;
   justify-content: center;
 }
 .Container-PageArea {
@@ -369,7 +375,4 @@ export default {
   text-overflow:ellipsis;
   white-space:nowrap; 
 }
-/* .Container-Agent thead > tr{
-  width: 60px;
-} */
 </style>

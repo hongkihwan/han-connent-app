@@ -43,7 +43,13 @@ export default {
 </script>
 
 <style>
-
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-right: 0px;
+  margin-left: 0px;
+}
 .Container-Connect {
   width: 100%;
   justify-content: center;
