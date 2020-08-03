@@ -153,6 +153,7 @@ export default {
         this.$swal({ 
           title: '데이터 확인필요',
           text: '기간을 확인해주세요.',
+          confirmButtonText: '확인',
           width: 350,
           icon: 'warning',
           allowOutsideClick: false
@@ -196,9 +197,9 @@ export default {
   overflow-y: auto;
 }
 .table-colored-bordered.table-bordered-info thead th {
-    color:#000030;
-    font-weight:600;
-    text-align: center;
-    background-color: #f0f0f2;
+  color:#000030;
+  font-weight:600;
+  text-align: center;
+  background-color: #f0f0f2;
 }
 </style>

@@ -160,6 +160,7 @@ export default {
         this.$swal({ 
           title: '데이터 확인필요',
           text: '기간을 확인해주세요.',
+          confirmButtonText: '확인',
           width: 350,
           icon: 'warning',
           allowOutsideClick: false

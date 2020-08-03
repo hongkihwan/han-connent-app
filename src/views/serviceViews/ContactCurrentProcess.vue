@@ -2,8 +2,9 @@
   <div class="Container-Top-agents"> 
     <b-row align-v="center">
       <div class="col-lg-12">
-        <div class="card-header ">
+        <div class="card-header" style="display: flex;align-items: center;justify-content: space-between;">
           <span style="font-weight: bold;">상담사 목록</span>
+          <b-button variant="primary" @click="addAgent">추가</b-button>
         </div>
       </div>
       <div class="mt-2 ml-2 mr-2" v-for="(item) in agents" :key="item.agentseq">
@@ -53,45 +54,95 @@ export default {
     this.loadAgent();
   },
   methods: {
-    addAgent() {
-      let self=this;
-
-      console.log('[Components-ContactCurrentProcess-addAgent] AgentInfo Object : ', this.agentInfoObj);
-      if(this.agentInfoObj["agentId"] == "" || this.agentInfoObj["agentName"] == "" 
-        || this.agentInfoObj["agentStation"] == "" || this.agentInfoObj["ctiId"] == "" || this.agentInfoObj["agentRole"] == "") {
-        self.$swal({ 
-          text: '입력값을 확인해주세요',
-          width: 300,
-          icon: 'warning',
-          allowOutsideClick: false
-        });
-      }else {
-        self.$swal({
-          
-        });
-        axios.post('http://localhost:8081/api/agent/addAgent', this.agentInfoObj)
-        .then(function (res) {
-            if(res.data.result === true) {
-              self.$swal({ 
-                title: '결과내용',
-                text:'성공적으로 추가되었습니다.',
-                width:300,
-                icon:'success',
-                allowOutsideClick: false
-              });
-            }else {
-              
-              self.$swal({ 
-                title: '결과내용',
-                text: '이미있는 정보 이므로 추가할 수 없습니다. ',
-                width:300,
-                icon:'error',
-                allowOutsideClick: false
-              });
+    async addAgent() {
+      const { value: formValues } = await Swal.fire({
+        icon: 'info',
+        title: "상담사 정보",
+        allowOutsideClick: false,
+        focusConfirm: false,
+        confirmButtonText: '등록' ,
+        html: `<div>
+                <div>
+                  <span style="font-weight:bold;">소속회사명 : </span>
+                  <input id="agentCompanyId" style="text-align: center;" autofocus />
+                </div>
+                <div style="display: flex; justify-content: space-around; align-items: center;margin-top: 10px;">
+                  <div >
+                    <span style="font-weight:bold;">CTIID : </span>
+                    <input id="agentCtiId" style="width: 80px;text-align: center;"/>
+                  </div>
+                  <div >
+                    <span style="font-weight:bold;">상담사 : </span>
+                    <input id="agentName" style="width: 80px;text-align: center;"/>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-around; align-items: center;margin-top: 10px;">
+                  <div>
+                    <span style="font-weight:bold;">내선번호 : </span>
+                    <input id="agentStation" style="width: 80px;text-align: center;" />
+                  </div>
+                  <div>
+                    <span style="font-weight:bold;">권한 : </span>
+                    <select id="agentRole" style="margin-left:5px;">
+                      <option value="none">선택</option>
+                      <option value="AGENT">AGENT</option>
+                      <option value="CLINET">CLINET</option>
+                      <option value="KMS">KMS</option>
+                      <option value="MANAGER">MANAGER</option>
+                    </select>
+                  </div>
+                </div>
+               </div>`,
+            preConfirm: () => {
+              return  {
+                agentCtiId : document.getElementById('agentCtiId').value,
+                agentName : document.getElementById('agentName').value,
+                companyId : document.getElementById('agentCompanyId').value,
+                agentStation: document.getElementById('agentStation').value,
+                agentRole: document.getElementById('agentRole').value,
+              }
             }
         });
-        this.clearInputBox();
+      if(formValues) {
+        console.log('[component-ContactCurrentProcess-addAgent] / ',JSON.stringify(formValues));
       }
+
+      // console.log('[Components-ContactCurrentProcess-addAgent] AgentInfo Object : ', this.agentInfoObj);
+      // if(this.agentInfoObj["agentId"] == "" || this.agentInfoObj["agentName"] == "" 
+      //   || this.agentInfoObj["agentStation"] == "" || this.agentInfoObj["ctiId"] == "" || this.agentInfoObj["agentRole"] == "") {
+      //   self.$swal({ 
+      //     text: '입력값을 확인해주세요',
+      //     width: 300,
+      //     icon: 'warning',
+      //     allowOutsideClick: false
+      //   });
+      // }else {
+      //   self.$swal({
+          
+      //   });
+      //   axios.post('http://localhost:8081/api/agent/addAgent', this.agentInfoObj)
+      //   .then(function (res) {
+      //       if(res.data.result === true) {
+      //         self.$swal({ 
+      //           title: '결과내용',
+      //           text:'성공적으로 추가되었습니다.',
+      //           width:300,
+      //           icon:'success',
+      //           allowOutsideClick: false
+      //         });
+      //       }else {
+              
+      //         self.$swal({ 
+      //           title: '결과내용',
+      //           text: '이미있는 정보 이므로 추가할 수 없습니다. ',
+      //           width:300,
+      //           icon:'error',
+      //           allowOutsideClick: false
+      //         });
+      //       }
+      //   });
+      //   // this.clearInputBox();
+      // }
     },
     async modifyAgentData(item) {
       let agentData = JSON.parse(JSON.stringify(item));
@@ -102,6 +153,7 @@ export default {
         width: 400,
         title: "상담사 정보",
         allowOutsideClick: false,
+        confirmButtonText: '확인',
         focusConfirm: false,
         html: `<div>
                 <div style="display:flex;justify-content: space-evenly;">
@@ -176,7 +228,7 @@ export default {
               });
             }
         });
-        this.clearInputBox();
+        // this.clearInputBox();
       }
     },
     agentInfo(index) {
@@ -193,14 +245,30 @@ export default {
       this.agentInfoObj["ctiId"] = '';
       this.agentInfoObj["agentRole"] = '';
     },
-    loadAgent: function () {
+    loadAgent() {
       let self=this;
       // console.log(process.env.VUE_APP_API_URL);
       axios.get(process.env.VUE_APP_API_URL+'/api/agent/3')
       .then(function (res) {
-          if(res.data.result === true) {
-            self.agents = res.data.items;
-          }
+        if(res.data.result === true) {
+          self.agents = res.data.items;
+        }else {
+          self.$swal({ 
+          title: '결과내용',
+          text: '서버확인이 필요합니다.  ',
+          width: 300,
+          icon:'error',
+          allowOutsideClick: false
+        });
+        }
+      }).catch(error => {
+        self.$swal({ 
+          title: '결과내용',
+          text: '서버확인이 필요합니다. : '+ error,
+          width: 300,
+          icon:'error',
+          allowOutsideClick: false
+        });
       });
     },
   }
