@@ -276,6 +276,9 @@ export default {
 </script>
 
 <style scoped>
+img {
+  opacity: 0.5;
+}
 .row {
   display: flex;
   flex-wrap: wrap;

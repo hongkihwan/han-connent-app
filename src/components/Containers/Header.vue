@@ -29,11 +29,15 @@
         <b-nav-item class="white--text">상담사 이름</b-nav-item>
         <div>
           <div>
-            <b-avatar style="cursor:pointer;" src="https://cdn.vuetifyjs.com/images/john.jpg" id="popover-reactive-1" variant="primary" @click="agentData" />
+            <b-avatar v-b-popover.hover.bottom style="cursor:pointer;" 
+            src="https://cdn.vuetifyjs.com/images/john.jpg" id="popover-reactive-1" variant="primary" />
           </div>
+          
           <b-popover
-            target="popover-reactive-1"
-            placement="bottom">
+            :target="`popover-reactive-1`"
+            placement="bottom"
+            title="Popover!"
+            triggers="hover focus">
             <template v-slot:title>
               <div style="display: flex;justify-content: center; ">
                상담사 정보
