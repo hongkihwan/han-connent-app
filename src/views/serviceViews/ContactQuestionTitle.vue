@@ -7,28 +7,32 @@
         </div>
         <div class="row">
           <div class="Container-list-Group-Main mt-3">
-            <b-card>
+            <div>
               <b-list-group v-for="(mainItem) in mainItems" :key="mainItem.codeseq">
                 <b-list-group-item class="d-flex justify-content-between align-items-center">
                   {{ mainItem.cdname }} ({{ mainItem.codeseq }})
-                  <b-badge class="ml-4 mr-2" variant="primary" pill>{{ mainItems.length}}</b-badge>
-                  <span @click="largePart(mainItem)"><i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+                  <b-badge class="ml-4 mr-2" variant="primary" pill>showCountData({{ mainItem.codeseq }})</b-badge>
+                  <span style="cursor:pointer;" ><i class="fa fa-caret-down"></i></span>
                 </b-list-group-item>
-                <b-list-group style="padding-left: 30px;" v-for="(mediumItem) in mediumItems" :key="mediumItem.codeseq">
-                  <b-list-group-item class="d-flex justify-content-between align-items-center">
-                    {{ mediumItem.cdname }} ({{ mediumItem.codeseq }})
-                  <b-badge class="ml-4 mr-2" variant="primary" pill>{{ mediumItems.length}}</b-badge>
-                  <span @click="mediumPart(mediumItem)"><i class="fa fa-chevron-down" aria-hidden="true"></i></span>
-                  </b-list-group-item>
-                  <b-list-group style="padding-left: 30px;" v-for="(smallItem) in smallItems" :key="smallItem.codeseq">
-                    <b-list-group-item class="d-flex justify-content-between align-items-center">
-                    {{ smallItem.cdname }} ({{ smallItem.codeseq }})
-                    <b-badge class="ml-4 mr-2" variant="primary" pill>{{ smallItem.length}}</b-badge>
-                    </b-list-group-item>
-                  </b-list-group>
-                </b-list-group>
               </b-list-group>
-            </b-card>
+            </div>
+            <!-- @click="largePart(mainItem)" <div>
+              <b-list-group style="padding-left: 30px;" v-for="(mediumItem) in mediumItems" :key="mediumItem.codeseq">
+                <b-list-group-item class="d-flex justify-content-between align-items-center">
+                  {{ mediumItem.cdname }} ({{ mediumItem.codeseq }})
+                  <b-badge class="ml-4 mr-2" variant="primary" pill>{{ smallItems.length}}</b-badge>
+                  <span style="cursor:pointer;" @click="mediumPart(mediumItem)"><i class="fa fa-caret-down"></i></span>
+                </b-list-group-item>
+              </b-list-group>
+            </div>
+            <div>
+              <b-list-group style="padding-left: 30px;" v-for="(smallItem) in smallItems" :key="smallItem.codeseq">
+                <b-list-group-item class="d-flex justify-content-between align-items-center">
+                {{ smallItem.cdname }} ({{ smallItem.codeseq }})
+                <b-badge class="ml-4 mr-2" variant="primary" pill>{{ smallItem.length}}</b-badge>
+                </b-list-group-item>
+              </b-list-group>
+            </div> -->
           </div>
         </div>
       </div>
@@ -61,7 +65,6 @@ export default {
       await axios.get(process.env.VUE_APP_API_URL + '/api/lookup/tenantid/3')
             .then((response) => {
               if(response.data.result === true) {
-                
                 self.lookups = response.data.items;
                 console.log('[components-ContactQuestionTitle-loadData] lookups: ',  this.lookups);
               }
@@ -72,36 +75,59 @@ export default {
           this.mainItems.push(this.lookups[index]);
         }
       }
-    },
-    async largePart(item) {
-      let itemObj = JSON.parse(JSON.stringify(item));
-      let self = this;
-      
-      console.log('[components-ContactQuestionTitle] largePart : ', itemObj);
-      await axios.get(process.env.VUE_APP_API_URL + '/api/lookup/parent/' + itemObj.codeseq)
-                  .then((response) => {
-                    console.log('[components-ContactQuestionTitle-largePart] response : ', response);
-                    if(response.data.result === true) {
-                      self.mediumItems = response.data.items;
-                      console.log('[components-ContactQuestionTitle-largePart] mediumItems: ',  this.mediumItems);
-                    }
-                  });
-    },
-    async mediumPart(item) {
-      let itemObj = JSON.parse(JSON.stringify(item));
-      let self = this;
+      console.log('[Components-ContactQuestionTitle-loadData] MainItems data : ', this.mainItems);
 
-      console.log('[components-ContactQuestionTitle] mediumPart : ', itemObj);
-      await axios.get(process.env.VUE_APP_API_URL + '/api/lookup/parent/' + itemObj.codeseq)
-                  .then((response) => {
-                    console.log('[components-ContactQuestionTitle-mediumPart] response : ', response);
-                    if(response.data.result === true) {
-                      self.smallItems = response.data.items;
-                      console.log('[components-ContactQuestionTitle-mediumPart] smallItems: ',  this.smallItems);
-                    }
-                  });
+      let itemObj = JSON.parse(JSON.stringify(this.mainItems));
+
+      console.log('[Components-ContactQuestionTitle-loadData] MainItems JSONObject data :', itemObj);
+
+    },
+    async showCountData(codeseq) {
+      // 해당 데이터의 갯수를 보여준다. 
+      let count;
+        await axios.get(process.env.VUE_APP_API_URL + '/api/lookup/parent/' + codeseq)
+              .then((response) => {
+                console.log('[components-ContactQuestionTitle-largePart] response : ', response);
+                if(response.data.result === true) {
+                  count = response.data.items.length;
+                  console.log('[components-ContactQuestionTitle-largePart] mediumItems: ',  this.mediumItems);
+                }
+              });
+
+      return count;
+      }
+    // async largePart(item) {
+    //   this.mediumItems=[];
+    //   this.smallItems=[];
+
+    //   let itemObj = JSON.parse(JSON.stringify(item));
+    //   let self = this;
+      
+    //   console.log('[components-ContactQuestionTitle] largePart : ', itemObj);
+    //   await axios.get(process.env.VUE_APP_API_URL + '/api/lookup/parent/' + itemObj.codeseq)
+    //               .then((response) => {
+    //                 console.log('[components-ContactQuestionTitle-largePart] response : ', response);
+    //                 if(response.data.result === true) {
+    //                   self.mediumItems = response.data.items;
+    //                   console.log('[components-ContactQuestionTitle-largePart] mediumItems: ',  this.mediumItems);
+    //                 }
+    //               });
+    // },
+    // async mediumPart(item) {
+    //   this.smallItems=[];
+    //   let itemObj = JSON.parse(JSON.stringify(item));
+    //   let self = this;
+
+    //   console.log('[components-ContactQuestionTitle] mediumPart : ', itemObj);
+    //   await axios.get(process.env.VUE_APP_API_URL + '/api/lookup/parent/' + itemObj.codeseq)
+    //               .then((response) => {
+    //                 console.log('[components-ContactQuestionTitle-mediumPart] response : ', response);
+    //                 if(response.data.result === true) {
+    //                   self.smallItems = response.data.items;
+    //                   console.log('[components-ContactQuestionTitle-mediumPart] smallItems: ',  this.smallItems);
+    //                 }
+    //               });
     }
-  }
 }
 </script>
 

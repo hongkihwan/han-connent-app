@@ -8,8 +8,9 @@
         </div>
       </div>
       <div class="mt-2 ml-2 mr-2" v-for="(item) in agents" :key="item.agentseq">
-        <b-card title="상담사 정보" img-src="hankook_logo.png"
+        <b-card img-src="hankook_logo.png"
         img-alt="Agent-info" img-top tag="agent" style="max-width:20rem;box-shadow: 3px 3px 10px rgba(126, 126, 126, 0.165);" class="mb-2" >
+        <b-card-title class="font-weight-bold">상담사 정보</b-card-title>
         <b-card-sub-title>(주)한국코퍼레이션</b-card-sub-title>
           <div class="mt-2" style="display:flex;align-items: center;">
             <b-avatar size="4rem" src="https://cdn.vuetifyjs.com/images/john.jpg"/>
